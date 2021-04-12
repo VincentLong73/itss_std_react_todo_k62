@@ -18,6 +18,8 @@ import useStorage from '../hooks/storage';
 /* ライブラリ */
 import {getKey} from "../lib/util";
 
+
+
 function Todo() {
   const [items, putItems] = React.useState([
       /* テストコード 開始 */
@@ -41,13 +43,30 @@ const handleAdd = text =>{
   putItems([...items, {key: getKey(), text, done: false}]);
 };
 
+const [filter, setFilter] = React.useState('ALL');
+
+const listItem = items.filter(item =>{
+  if(filter === 'ALL')
+    return true;
+  if(filter === 'TODO')
+    return !item.done;
+  if(filter === 'DONE')
+    return item.done;
+});
+
+const handleFilterChange = value => setFilter(value);
+
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
       <Input onAdd={handleAdd}/>
-      {items.map(item => (
+      <Filter 
+        onChange = {handleFilterChange}
+        value = {filter}
+      />
+      {listItem.map(item => (
         <TodoItem
           key={item.key}
           item={item}
@@ -55,7 +74,7 @@ const handleAdd = text =>{
         />
       ))}
       <div className="panel-block">
-        {items.length} items
+        {listItem.length} items
       </div>
     </div>
   );
