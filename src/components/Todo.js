@@ -21,13 +21,15 @@ import {getKey} from "../lib/util";
 
 
 function Todo() {
-  const [items, putItems] = React.useState([
-      /* テストコード 開始 */
-    { key: getKey(), text: '日本語の宿題', done: false },
-    { key: getKey(), text: 'reactを勉強する', done: false },
-    { key: getKey(), text: '明日の準備をする', done: false },
-    /* テストコード 終了 */
-  ]);
+  // const [items, putItems] = React.useState([
+  //     /* テストコード 開始 */
+  //   { key: getKey(), text: '日本語の宿題', done: false },
+  //   { key: getKey(), text: 'reactを勉強する', done: false },
+  //   { key: getKey(), text: '明日の準備をする', done: false },
+  //   /* テストコード 終了 */
+  // ]);
+  
+  const [items, putItems, clearItems] = useStorage();
   
   const handleClickChecBox = checked => {
     const newItems = items.map(item =>{
@@ -57,7 +59,7 @@ const listItem = items.filter(item =>{
 const handleFilterChange = value => setFilter(value);
 
   return (
-    <div className="panel">
+    <div className="panel is-danger">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
@@ -75,6 +77,15 @@ const handleFilterChange = value => setFilter(value);
       ))}
       <div className="panel-block">
         {listItem.length} items
+      </div>
+      <div
+        className = "panel-book">
+          <button variant="primary" size="lg" active
+            className = "button"
+            onClick = {clearItems}
+          >
+          全てのTODOを削除
+          </button>
       </div>
     </div>
   );

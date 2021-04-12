@@ -20,7 +20,7 @@ function Input( { onAdd} ) {
       <input
         class ="input"
         type = "text"
-        placeholder="Enter to add"
+        placeholder="Todoを入力してください"
         value={text}
         onChange={handleClickChecBox}
         onKeyDown={handleKeyDown}
