@@ -14,6 +14,7 @@ import Filter from './Filter';
 
 /* カスタムフック */
 import useStorage from '../hooks/storage';
+import useFirebaseStorage from '../hooks/firebaseStorage';
 
 /* ライブラリ */
 import {getKey} from "../lib/util";
@@ -29,20 +30,26 @@ function Todo() {
   //   /* テストコード 終了 */
   // ]);
   
-  const [items, putItems, clearItems] = useStorage();
+  const [items, addItem, updateItem, clearItems] = useFirebaseStorage();
+
+  
+  //const [items, putItems, clearItems] = useStorage();
   
   const handleClickChecBox = checked => {
-    const newItems = items.map(item =>{
-      if(item.key == checked.key){
-        item.done = !item.done;
-      }
-      return item;
-    });
-    putItems(newItems);
+    // const newItems = items.map(item =>{
+    //   if(item.key == checked.key){
+    //     item.done = !item.done;
+    //   }
+    //   return item;
+    // });
+    // putItems(newItems);
+    
+    updateItem(checked);
 };
 
 const handleAdd = text =>{
-  putItems([...items, {key: getKey(), text, done: false}]);
+  ///putItems([...items, {key: getKey(), text, done: false}]);
+  addItem({ text, done: false });
 };
 
 const [filter, setFilter] = React.useState('ALL');
@@ -70,7 +77,7 @@ const handleFilterChange = value => setFilter(value);
       />
       {listItem.map(item => (
         <TodoItem
-          key={item.key}
+          key={item.id}
           item={item}
           onClick={handleClickChecBox}
         />
